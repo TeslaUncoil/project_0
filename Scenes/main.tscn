@@ -1,8 +1,15 @@
-[gd_scene load_steps=10 format=4 uid="uid://c2g6uxl38ms0f"]
+[gd_scene load_steps=25 format=4 uid="uid://c2g6uxl38ms0f"]
 
 [ext_resource type="Script" path="res://Scripts/game_manager.gd" id="1_0rg5i"]
 [ext_resource type="Texture2D" uid="uid://dbdxgssuwg7d4" path="res://Assets/Animated_16x16/Tileset_SpookyMansion_16x16_FREE.png" id="1_elua1"]
 [ext_resource type="PackedScene" uid="uid://dtoiq03k87a6h" path="res://Scenes/player_1.tscn" id="3_4ytu1"]
+[ext_resource type="Script" path="res://Scenes/drops.gd" id="3_fepy8"]
+[ext_resource type="FontFile" uid="uid://dea3n4i63868x" path="res://Assets/PublicPixel-rv0pA.ttf" id="4_r2lrv"]
+[ext_resource type="Script" path="res://Scenes/overlay.gd" id="4_slf1p"]
+[ext_resource type="Texture2D" uid="uid://cjjqs27ddb0x7" path="res://Assets/Spooky_FULL/16x16/UI_16x16/UI_16x16.png" id="6_sau8u"]
+[ext_resource type="Texture2D" uid="uid://ld5b3mbf786w" path="res://Assets/Spooky_FULL/16x16/Animated_16x16/Spritesheets_16x16/Big_coin_1_anim_16x16.png" id="7_27l5o"]
+[ext_resource type="PackedScene" uid="uid://b0vb2amupr802" path="res://Scenes/heart.tscn" id="8_kg073"]
+[ext_resource type="Script" path="res://Scenes/enemy_spawners.gd" id="8_ytdd6"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_yu3in"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, 0, 0, 0, 8, -8, 0, -8)
@@ -298,6 +305,68 @@ physics_layer_1/collision_mask = 0
 navigation_layer_0/layers = 1
 sources/1 = SubResource("TileSetAtlasSource_eihwe")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmnme"]
+atlas = ExtResource("7_27l5o")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2woj2"]
+atlas = ExtResource("7_27l5o")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnwdt"]
+atlas = ExtResource("7_27l5o")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1fl0"]
+atlas = ExtResource("7_27l5o")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hhp4n"]
+atlas = ExtResource("7_27l5o")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b5bkp"]
+atlas = ExtResource("7_27l5o")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tajqe"]
+atlas = ExtResource("6_sau8u")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4xpm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nmnme")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2woj2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gnwdt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t1fl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hhp4n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b5bkp")
+}],
+"loop": true,
+"name": &"coin_sprite",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tajqe")
+}],
+"loop": false,
+"name": &"money_symbol",
+"speed": 1.0
+}]
+
 [node name="Main" type="Node2D"]
 script = ExtResource("1_0rg5i")
 
@@ -335,26 +404,141 @@ tile_set = SubResource("TileSet_o40v7")
 tile_map_data = PackedByteArray("AAALAP//AQAPAAkAAAALAAAAAQAPAAkAAAAAAPf/AQAPAAkAAAD///f/AQAPAAkAAAD0////AQAPAAkAAAD0/wAAAQAPAAkAAAD//wQAAQAPAAkAAAAAAAQAAQAPAAkAAAA=")
 tile_set = SubResource("TileSet_o40v7")
 
+[node name="Drops" type="Node2D" parent="."]
+script = ExtResource("3_fepy8")
+
 [node name="player" parent="." instance=ExtResource("3_4ytu1")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -31)
 zoom = Vector2(3, 3)
 
-[node name="ZombieSpawn1" type="Marker2D" parent="."]
+[node name="Overlay" type="Node2D" parent="Camera2D"]
+position = Vector2(0, 31)
+script = ExtResource("4_slf1p")
+
+[node name="Static" type="Label" parent="Camera2D/Overlay"]
+texture_filter = 1
+offset_left = -191.0
+offset_top = 22.0
+offset_right = -120.0
+offset_bottom = 89.0
+scale = Vector2(0.8, 0.8)
+theme_override_fonts/font = ExtResource("4_r2lrv")
+theme_override_font_sizes/font_size = 8
+text = "Wave:
+
+Enemies:
+
+Kills:"
+autowrap_mode = 2
+
+[node name="WaveNum" type="Label" parent="Camera2D/Overlay"]
+offset_left = -185.0
+offset_top = 30.0
+offset_right = -155.0
+offset_bottom = 39.0
+theme_override_fonts/font = ExtResource("4_r2lrv")
+theme_override_font_sizes/font_size = 8
+text = "0"
+
+[node name="Enemies" type="Label" parent="Camera2D/Overlay"]
+offset_left = -185.0
+offset_top = 47.0
+offset_right = -155.0
+offset_bottom = 56.0
+theme_override_fonts/font = ExtResource("4_r2lrv")
+theme_override_font_sizes/font_size = 8
+text = "0"
+
+[node name="Kills" type="Label" parent="Camera2D/Overlay"]
+offset_left = -185.0
+offset_top = 65.0
+offset_right = -155.0
+offset_bottom = 74.0
+theme_override_fonts/font = ExtResource("4_r2lrv")
+theme_override_font_sizes/font_size = 8
+text = "0"
+
+[node name="CoinCount" type="Label" parent="Camera2D/Overlay"]
+offset_left = -173.0
+offset_top = -82.0
+offset_right = -137.0
+offset_bottom = -73.0
+theme_override_fonts/font = ExtResource("4_r2lrv")
+theme_override_font_sizes/font_size = 8
+text = "0"
+
+[node name="coinicon" type="AnimatedSprite2D" parent="Camera2D/Overlay"]
+position = Vector2(-183, -79)
+sprite_frames = SubResource("SpriteFrames_g4xpm")
+animation = &"money_symbol"
+autoplay = "money_symbol"
+
+[node name="heart1" parent="Camera2D/Overlay" instance=ExtResource("8_kg073")]
+position = Vector2(-184, -128)
+
+[node name="heart2" parent="Camera2D/Overlay" instance=ExtResource("8_kg073")]
+position = Vector2(-170, -128)
+
+[node name="heart3" parent="Camera2D/Overlay" instance=ExtResource("8_kg073")]
+position = Vector2(-156, -128)
+
+[node name="Downtime" type="Node2D" parent="Camera2D/Overlay"]
+
+[node name="Static" type="Label" parent="Camera2D/Overlay/Downtime"]
+texture_filter = 1
+offset_left = -109.0
+offset_top = -135.0
+offset_right = 164.0
+offset_bottom = -113.0
+scale = Vector2(0.8, 0.8)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_r2lrv")
+theme_override_font_sizes/font_size = 16
+text = "ROUND STARTS IN:"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Seconds" type="Label" parent="Camera2D/Overlay/Downtime"]
+texture_filter = 1
+offset_left = -38.0
+offset_top = -114.0
+offset_right = 57.0
+offset_bottom = -92.0
+scale = Vector2(0.8, 0.8)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_r2lrv")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="EnemySpawners" type="Node2D" parent="."]
+script = ExtResource("8_ytdd6")
+
+[node name="ZombieSpawn1" type="Marker2D" parent="EnemySpawners"]
 position = Vector2(-224, 0)
 
-[node name="ZombieSpawn2" type="Marker2D" parent="."]
+[node name="ZombieSpawn2" type="Marker2D" parent="EnemySpawners"]
 position = Vector2(0, -192)
 
-[node name="ZombieSpawn3" type="Marker2D" parent="."]
+[node name="ZombieSpawn3" type="Marker2D" parent="EnemySpawners"]
 position = Vector2(224, 0)
 
-[node name="ZombieSpawn4" type="Marker2D" parent="."]
+[node name="ZombieSpawn4" type="Marker2D" parent="EnemySpawners"]
 position = Vector2(0, 176)
+
+[node name="RoundWait" type="Timer" parent="EnemySpawners"]
+wait_time = 5.0
+one_shot = true
 
 [node name="resettimer" type="Timer" parent="."]
 wait_time = 0.75
 one_shot = true
 
+[node name="clock" type="Timer" parent="."]
+autostart = true
+
 [connection signal="timeout" from="resettimer" to="." method="_on_resettimer_timeout"]
+[connection signal="timeout" from="clock" to="." method="_on_clock_timeout"]
+[connection signal="timeout" from="clock" to="EnemySpawners" method="_on_clock_timeout"]

@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://b0vb2amupr802"]
+
+[ext_resource type="Script" path="res://Scenes/heart.gd" id="1_tmpre"]
+[ext_resource type="Texture2D" uid="uid://cjjqs27ddb0x7" path="res://Assets/Spooky_FULL/16x16/UI_16x16/UI_16x16.png" id="1_xkqxe"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46c5e"]
+atlas = ExtResource("1_xkqxe")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ydg8"]
+atlas = ExtResource("1_xkqxe")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kauw6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46c5e")
+}],
+"loop": false,
+"name": &"empty",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ydg8")
+}],
+"loop": false,
+"name": &"full",
+"speed": 1.0
+}]
+
+[node name="heart" type="Node2D"]
+script = ExtResource("1_tmpre")
+
+[node name="heartState" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_kauw6")
+animation = &"full"
+autoplay = "full"

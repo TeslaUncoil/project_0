@@ -1,0 +1,75 @@
+[gd_scene load_steps=11 format=3 uid="uid://xnvrbnog4h6s"]
+
+[ext_resource type="Script" path="res://Scenes/small_gold_coin.gd" id="1_8t3yh"]
+[ext_resource type="Texture2D" uid="uid://dhfwbhlbveh8b" path="res://Assets/Spooky_FULL/16x16/Animated_16x16/Spritesheets_16x16/Small_coin_1_anim_16x16.png" id="1_xee7o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3a5g2"]
+atlas = ExtResource("1_xee7o")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8aipf"]
+atlas = ExtResource("1_xee7o")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcjnd"]
+atlas = ExtResource("1_xee7o")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a8o7h"]
+atlas = ExtResource("1_xee7o")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i8efm"]
+atlas = ExtResource("1_xee7o")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ipcfm"]
+atlas = ExtResource("1_xee7o")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_agyl4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3a5g2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8aipf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qcjnd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a8o7h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i8efm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ipcfm")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_05gw2"]
+radius = 4.0
+
+[node name="Small Gold Coin" type="Node2D"]
+script = ExtResource("1_8t3yh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-8.5, -8.5)
+sprite_frames = SubResource("SpriteFrames_agyl4")
+autoplay = "default"
+frame_progress = 0.0874845
+centered = false
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_05gw2")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

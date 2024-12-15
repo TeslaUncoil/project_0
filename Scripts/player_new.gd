@@ -5,7 +5,7 @@ extends CharacterBody2D
 @export var speed = 100.0
 @export var friction = 1
 @export var acceleration = 0.5
-@export var health = 5.0
+@export var health = 3.0
 
 #flag exports, use to control animations and hit/health detection
 #these probably dont need to be exports? couldn't hurt??
@@ -85,11 +85,6 @@ func _on_hit_origin_body_entered(body: Node2D) -> void:
 func _on_hurt_origin_body_entered(body: Node2D) -> void:
 	if body.has_method("zomb_hurt"):
 		body.zomb_hurt()
-		print("BAM")
-		
-	#if body.name.containsn("zomb"):
-		#print("BAM")
-
 
 #func _on_hit_origin_area_entered(area: Area2D) -> void:
 ##disconnect before deleting

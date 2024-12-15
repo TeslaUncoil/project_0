@@ -4,12 +4,13 @@ extends CharacterBody2D
 ## 	and signal down to each instance?
 
 @export var run_speed = 30
-@export var zhealth = 2.0
+@export var zhealth = 1.0
 @export var target = Vector2.ZERO
 
 @onready var anims: AnimatedSprite2D = $Anims
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var hurt_cooldown: Timer = $hurt_cooldown
+
 
 var _position_last_frame := Vector2()
 @export var _cardinal_direction = 0
@@ -110,7 +111,7 @@ func _on_cooldown_timeout() -> void:
 	hugging = false
 	knockback = false
 
-func _on_hitzone_area_entered(area: Area2D) -> void:
+func _on_hitzone_area_entered(_area: Area2D) -> void:
 	#if area.name.containsn("hurt"):
 		#zomb_hurt()
 ##neither of these work <<<<<<<<
@@ -120,7 +121,6 @@ func _on_hitzone_area_entered(area: Area2D) -> void:
 	pass
 
 func zomb_hurt() -> void:
-	print("POW")
 	if !hurting:
 		hurting = true
 		zhealth -= 1.0
@@ -147,7 +147,11 @@ func zomb_hurt_animation() -> void:
 	hurt_cooldown.start()
 	
 func handle_death() -> void:
-	print("zombie down!")
+	#print("zombie down!")
+	Global.kills += 1
+	Global.roundKills += 1
+	#emit_signal("zombie_dead")
+	SignalBus.on_zombie_killed.emit(position)
 	queue_free()
 	
 func _on_pathtimer_timeout() -> void:

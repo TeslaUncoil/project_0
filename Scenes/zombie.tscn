@@ -709,23 +709,24 @@ platform_on_leave = 2
 script = ExtResource("1_wwnh1")
 
 [node name="Anims" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -16)
+position = Vector2(0, -13)
 sprite_frames = SubResource("SpriteFrames_rnc3s")
 animation = &"hurtD"
 autoplay = "idle_down"
 
 [node name="collision" type="CollisionShape2D" parent="."]
-position = Vector2(0, -5)
+position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_h43b8")
 
 [node name="Hitzone" type="Area2D" parent="."]
+position = Vector2(0, 3)
 
 [node name="hitbox" type="CollisionShape2D" parent="Hitzone"]
 position = Vector2(0, -5)
 shape = SubResource("RectangleShape2D_h43b8")
 
 [node name="Hurtzone" parent="." instance=ExtResource("3_uqgyq")]
-position = Vector2(0, 3)
+position = Vector2(0, 6)
 collision_layer = 2
 
 [node name="hurtbox" type="CollisionShape2D" parent="Hurtzone"]
